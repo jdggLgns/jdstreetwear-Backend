@@ -17,6 +17,8 @@ public class Product {
     private Double price;
     private String type;
 
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -51,6 +53,14 @@ public class Product {
 
     public String getColor() {
         return color;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setColor(String color) {

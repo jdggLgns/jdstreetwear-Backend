@@ -40,6 +40,7 @@ public class ProductService {
             product.setInventories(productDetails.getInventories());
             product.setTshirt(productDetails.getTshirt());
             product.setSweatshirt(productDetails.getSweatshirt());
+            product.setImage(productDetails.getImage());
             return productDAO.save(product);
         } else {
             return null;
