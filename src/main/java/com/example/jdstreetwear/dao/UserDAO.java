@@ -1,4 +1,4 @@
-package com.example.jdstreetwear.daos;
+package com.example.jdstreetwear.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

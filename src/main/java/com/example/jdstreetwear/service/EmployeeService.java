@@ -1,6 +1,5 @@
 package com.example.jdstreetwear.service;
 
-import com.example.jdstreetwear.daos.EmployeeDAO;
 import com.example.jdstreetwear.model.User;
 import com.example.jdstreetwear.repository.EmployeeRepository;
 import com.example.jdstreetwear.repository.UserRepository;

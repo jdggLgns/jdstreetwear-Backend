@@ -6,7 +6,6 @@ import com.example.jdstreetwear.model.User;
 import com.example.jdstreetwear.service.CustomerService;
 import com.example.jdstreetwear.service.EmployeeService;
 import com.example.jdstreetwear.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +15,17 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public UserController(UserService userService, EmployeeService employeeService, CustomerService customerService) {
+        this.userService = userService;
+        this.employeeService = employeeService;
+        this.customerService = customerService;
+    }
 
     @PostMapping
     public User createUser(@RequestBody User user) {

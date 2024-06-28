@@ -1,4 +1,4 @@
-package com.example.jdstreetwear.daos;
+package com.example.jdstreetwear.dao;
 
 import com.example.jdstreetwear.model.Employee;
 import com.example.jdstreetwear.repository.EmployeeRepository;

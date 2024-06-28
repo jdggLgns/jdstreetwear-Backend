@@ -1,6 +1,6 @@
 package com.example.jdstreetwear.service;
 
-import com.example.jdstreetwear.daos.ProductDAO;
+import com.example.jdstreetwear.dao.ProductDAO;
 import com.example.jdstreetwear.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

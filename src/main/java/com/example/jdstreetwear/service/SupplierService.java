@@ -6,6 +6,7 @@ import com.example.jdstreetwear.dao.SupplierDAO;
 import com.example.jdstreetwear.model.Supplier;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -35,7 +36,7 @@ public class SupplierService {
             supplier.setPhone(supplierDetails.getPhone());
             return supplierDAO.save(supplier);
         } else {
-            throw new RuntimeException("Supplier not found with id " + id);
+            throw new NoSuchElementException("Supplier not found with id " + id);
         }
     }
 

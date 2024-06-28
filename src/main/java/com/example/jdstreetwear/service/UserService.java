@@ -2,10 +2,11 @@ package com.example.jdstreetwear.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.jdstreetwear.daos.UserDAO;
+import com.example.jdstreetwear.dao.UserDAO;
 import com.example.jdstreetwear.model.User;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -38,7 +39,7 @@ public class UserService {
             user.setRole(userDetails.getRole());
             return userDAO.save(user);
         } else {
-            throw new RuntimeException("User not found with id " + id);
+            throw new NoSuchElementException("User not found with id " + id);
         }
     }
 
