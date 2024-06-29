@@ -40,7 +40,9 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam String name) {
-        return productService.searchProducts(name);
+    public List<Product> searchProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long categoryId) {
+        return productService.searchProducts(name, categoryId);
     }
 }

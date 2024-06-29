@@ -50,8 +50,7 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productDAO.deleteById(id);
     }
-
-    public List<Product> searchProducts(String name) {
-        return productDAO.findByName(name);
+    public List<Product> searchProducts(String name, Long categoryId) {
+        return productDAO.searchProducts(name, categoryId);
     }
 }

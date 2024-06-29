@@ -30,7 +30,15 @@ public class ProductDAO {
         productRepository.deleteById(id);
     }
 
-    public List<Product> findByName(String name) {
-        return productRepository.findByName(name);
-    }
-}
+
+    public List<Product> searchProducts(String name, Long categoryId) {
+        if (name != null && categoryId != null) {
+            return productRepository.findByNameAndCategoryId(name, categoryId);
+        } else if (name != null) {
+            return productRepository.findByName(name);
+        } else if (categoryId != null) {
+            return productRepository.findByCategoryId(categoryId);
+        } else {
+            return productRepository.findAll();
+        }
+    }}
