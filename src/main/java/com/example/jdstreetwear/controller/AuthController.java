@@ -1,5 +1,6 @@
 package com.example.jdstreetwear.controller;
 
+import com.example.jdstreetwear.model.LoginRequest;
 import com.example.jdstreetwear.model.User;
 import com.example.jdstreetwear.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -23,17 +24,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String>> login(@RequestBody User loginRequest) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
         Optional<User> user = userService.findByEmail(loginRequest.getEmail());
         if (user.isPresent() && passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) {
-            Map<String, String> response = new HashMap<>();
-            response.put(MESSAGE, "Login successful");
-            response.put("role", user.get().getRole());
+            User userSafe = user.get();
+            userSafe.setPassword(null);
+            Map<String, Object> response = new HashMap<>();
+            response.put("user", userSafe);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body(Collections.singletonMap(MESSAGE, "Invalid Credentials"));
         }
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
@@ -45,8 +48,6 @@ public class AuthController {
         user.setRole("customer");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.createUser(user);
-        Map<String, String> response = new HashMap<>();
-        response.put(MESSAGE, "User registered successfully");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(Collections.singletonMap(MESSAGE, "User registered successfully"));
     }
 }

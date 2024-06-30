@@ -42,4 +42,8 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/userId")
+    public Customer getCustomerByUserId(@RequestParam Long userId) {
+        return customerService.getCustomerByUserId(userId);
+    }
 }

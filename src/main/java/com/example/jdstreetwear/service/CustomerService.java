@@ -55,7 +55,9 @@ public class CustomerService {
             return null;
         }
     }
-
+    public Customer getCustomerByUserId(Long userId) {
+        return customerRepository.findByUserId(userId);
+    }
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }

@@ -13,8 +13,8 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/add")
-    public Cart addToCart(@RequestParam Long userId, @RequestParam Long productId, @RequestParam int quantity) {
-        return cartService.addToCart(userId, productId, quantity);
+    public Cart addToCart(@RequestParam Long customerId, @RequestParam Long productId, @RequestParam int quantity) {
+        return cartService.addToCart(customerId, productId, quantity);
     }
 
     @DeleteMapping("/remove")
@@ -23,7 +23,11 @@ public class CartController {
     }
 
     @GetMapping
-    public Cart getCart(@RequestParam Long userId) {
-        return cartService.getCart(userId);
+    public Cart getCart(@RequestParam Long customerId) {
+        return cartService.getCart(customerId);
+    }
+    @DeleteMapping("/clear")
+    public void clearCart(@RequestParam Long customerId) {
+        cartService.clearCart(customerId);
     }
 }

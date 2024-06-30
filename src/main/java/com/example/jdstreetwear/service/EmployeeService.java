@@ -1,5 +1,5 @@
 package com.example.jdstreetwear.service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.jdstreetwear.model.User;
 import com.example.jdstreetwear.repository.EmployeeRepository;
 import com.example.jdstreetwear.repository.UserRepository;
@@ -19,6 +19,8 @@ public class EmployeeService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
@@ -30,11 +32,12 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         User user = employee.getUser();
         user.setRole("employee");
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userRepository.save(user);
         employee.setUser(user);
         return employeeRepository.save(employee);
     }
-
     public Employee updateEmployee(Long id, Employee employeeDetails) {
         Optional<Employee> employee = employeeRepository.findById(id);
         if (employee.isPresent()) {

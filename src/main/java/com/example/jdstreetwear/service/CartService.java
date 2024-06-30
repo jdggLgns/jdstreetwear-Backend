@@ -2,10 +2,8 @@ package com.example.jdstreetwear.service;
 
 import com.example.jdstreetwear.dao.CartDAO;
 import com.example.jdstreetwear.dao.CartItemDAO;
-import com.example.jdstreetwear.model.Cart;
-import com.example.jdstreetwear.model.CartItem;
-import com.example.jdstreetwear.model.Product;
-import com.example.jdstreetwear.model.User;
+import com.example.jdstreetwear.model.*;
+import com.example.jdstreetwear.repository.CustomerRepository;
 import com.example.jdstreetwear.repository.ProductRepository;
 import com.example.jdstreetwear.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +22,17 @@ public class CartService {
     private ProductRepository productRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
-    public Cart addToCart(Long userId, Long productId, int quantity) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    public Cart addToCart(Long customerId, Long productId, int quantity) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        User user = customer.getUser();
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
 
-        Cart cart = cartDAO.findByUserId(userId).orElseGet(() -> new Cart(user));
+        Cart cart = cartDAO.findByUserId(user.getId()).orElseGet(() -> new Cart(user));
         CartItem cartItem = cart.getItems().stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
@@ -56,11 +58,24 @@ public class CartService {
         return cartDAO.save(cart);
     }
 
-    public Cart getCart(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return cartDAO.findByUserId(userId).orElseGet(() -> {
+    public Cart getCart(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        User user = customer.getUser();
+        return cartDAO.findByUserId(user.getId()).orElseGet(() -> {
             Cart newCart = new Cart(user);
             return cartDAO.save(newCart);
         });
     }
+
+    public void clearCart(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        User user = customer.getUser();
+        Cart cart = cartDAO.findByUserId(user.getId()).orElseThrow(() -> new RuntimeException("Cart not found"));
+        for (CartItem item : cart.getItems()) {
+            cartItemDAO.delete(item);
+        }
+        cart.getItems().clear();
+        cartDAO.save(cart);
+    }
+
 }
